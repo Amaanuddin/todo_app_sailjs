@@ -1,8 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Todo from "./components/Todo";
+import Boards from "./components/Boards";
+import { Container } from "semantic-ui-react";
 const App = () => {
-  return <Todo />;
+  return (
+    <Container fluid textAlign="center">
+      <Boards />
+    </Container>
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById("root"));

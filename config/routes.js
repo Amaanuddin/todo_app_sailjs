@@ -24,6 +24,7 @@ module.exports.routes = {
   "DELETE /board/delete": "board/delete",
   "DELETE /todo/delete": "todo/delete",
   "GET /board/get": "board/get",
+  "GET /board/list": "board/list",
   "GET /todo/list": "todo/list",
   "GET /todo/get": "todo/get",
   "PATCH /todo/update": "todo/update",

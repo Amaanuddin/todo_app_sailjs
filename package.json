@@ -5,9 +5,11 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "@babel/runtime": "^7.16.5",
     "@sailshq/connect-redis": "^3.2.1",
     "@sailshq/lodash": "^3.10.3",
     "@sailshq/socket.io-redis": "^5.2.0",
+    "axios": "^0.24.0",
     "grunt": "1.0.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -15,10 +17,13 @@
     "sails-hook-grunt": "^5.0.0",
     "sails-hook-orm": "^4.0.0",
     "sails-hook-sockets": "^2.0.0",
-    "sails-postgresql": "^4.0.0"
+    "sails-postgresql": "^4.0.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",
+    "@babel/plugin-transform-runtime": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
     "@babel/preset-react": "^7.16.5",
     "babel-loader": "^8.2.3",

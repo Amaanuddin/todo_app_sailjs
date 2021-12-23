@@ -4,11 +4,11 @@ module.exports = {
   description: "List todo.",
 
   inputs: {
-    // id: {
-    //   required: true,
-    //   description: "id for board",
-    //   type: "number",
-    // },
+    boardId: {
+      required: true,
+      description: "id for board",
+      type: "number",
+    },
   },
 
   exits: {
@@ -18,9 +18,9 @@ module.exports = {
   },
 
   fn: async function (inputs) {
-    // const { id } = inputs;
+    const { boardId } = inputs;
     try {
-      const todos = await Todo.find().populate("boardId");
+      const todos = await Todo.find({ where: { boardId } }).populate("boardId");
       return todos;
     } catch (err) {
       console.log(err);
