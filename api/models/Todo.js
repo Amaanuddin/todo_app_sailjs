@@ -23,7 +23,10 @@ module.exports = {
     boardId: {
       model: "board",
     },
-    // boardi: {},
+    status: {
+      type: "boolean",
+      required: true,
+    },
   },
   datastore: "postgres",
 };

@@ -19,8 +19,15 @@ module.exports.routes = {
    ***************************************************************************/
 
   "/": { view: "pages/homepage" },
-  "POST /create/todo": "todo/create",
-  "POST /create/board": "board/create",
+  "POST /todo/create": "todo/create",
+  "POST /board/create": "board/create",
+  "DELETE /board/delete": "board/delete",
+  "DELETE /todo/delete": "todo/delete",
+  "GET /board/get": "board/get",
+  "GET /todo/list": "todo/list",
+  "GET /todo/get": "todo/get",
+  "PATCH /todo/update": "todo/update",
+  "PATCH /board/update": "board/update",
 
   /***************************************************************************
    *                                                                          *

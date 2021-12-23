@@ -1,7 +1,7 @@
 module.exports = {
-  friendlyName: "Create",
+  friendlyName: "Update",
 
-  description: "Create todo.",
+  description: "Update todo.",
 
   inputs: {
     description: {
@@ -9,15 +9,20 @@ module.exports = {
       description: "description for TODO",
       type: "string",
     },
-    boardId: {
+    id: {
       required: true,
-      description: "id of the board to which todo is attached.",
+      description: "id for todo",
       type: "number",
     },
     status: {
       required: true,
       description: "status of the todo item",
       type: "boolean",
+    },
+    boardId: {
+      required: true,
+      description: "id for board",
+      type: "number",
     },
   },
 
@@ -29,15 +34,15 @@ module.exports = {
 
   fn: async function (inputs) {
     // All done.
-    const { description, boardId, status } = inputs;
+    const { description, id, status, boardId } = inputs;
     try {
-      await Todo.create({
+      const updatedTodo = await Todo.updateOne({ id }).set({
         description,
-        boardId,
         status,
+        boardId,
       });
 
-      return;
+      return updatedTodo;
     } catch (err) {
       console.log(err);
       throw { invalid: err };
