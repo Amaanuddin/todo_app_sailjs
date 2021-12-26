@@ -2,6 +2,14 @@
 
 a [Sails v1](https://sailsjs.com) application
 
+### Prerequisties
+
+1. Copy the sql command to create DB which is present in db.sql file. 
+2. Create user `postgres` and password `1234`.
+3. Copy and paste the create table commands in your Postgres editor.
+ 
+
+
 
 ### Links
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Tab, Checkbox, Icon, Input } from "semantic-ui-react";
 import styled, { css } from "styled-components";
 

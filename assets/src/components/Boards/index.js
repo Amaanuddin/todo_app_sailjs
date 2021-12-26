@@ -190,9 +190,8 @@ const Boards = () => {
       <Tab
         menu={{ fluid: true, vertical: true, pointing: true }}
         panes={panes}
-        // menuPosition="left"
         activeIndex={activeIndex}
-        onTabChange={(e, { activeIndex: newIndex }) => setActiveIndex(newIndex)}
+        onTabChange={(_, { activeIndex: newIndex }) => setActiveIndex(newIndex)}
         className="tab"
       />
     </Wrapper>
