@@ -20,10 +20,9 @@ module.exports = {
   fn: async function (inputs) {
     const { id } = inputs;
     try {
-      const deletedTodo = await Todo.destroy({
+      await Todo.destroy({
         id,
-      }).fetch();
-      console.log(deletedTodo);
+      });
       return;
     } catch (err) {
       console.log(err);

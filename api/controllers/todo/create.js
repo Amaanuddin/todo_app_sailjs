@@ -31,13 +31,13 @@ module.exports = {
     // All done.
     const { description, boardId, status } = inputs;
     try {
-      await Todo.create({
+      const todo = await Todo.create({
         description,
         boardId,
         status,
-      });
+      }).fetch();
 
-      return;
+      return todo;
     } catch (err) {
       console.log(err);
       throw { invalid: err };

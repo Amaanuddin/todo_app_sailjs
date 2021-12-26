@@ -20,11 +20,11 @@ module.exports = {
   fn: async function (inputs) {
     const { name } = inputs;
     try {
-      await Board.create({
+      const board = await Board.create({
         name,
-      });
+      }).fetch();
 
-      return;
+      return board;
     } catch (err) {
       console.log(err);
       throw { invalid: err };

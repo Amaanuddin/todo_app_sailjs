@@ -20,16 +20,16 @@ module.exports = {
   fn: async function (inputs) {
     const { id } = inputs;
     try {
-      const board = await Board.destroy({
+      const todos = await Todo.find({ where: { boardId: id } });
+      await Board.destroy({
         id,
       }).fetch();
-      console.log(board);
-      const todos = await Todo.find({ boardId: id });
-      const todosTodelete = todos.map((todo) => todo.id);
-      const deletedTodo = await Todo.destroy({
+      const todosTodelete = todos.map((todo) => {
+        return todo.id;
+      });
+      await Todo.destroy({
         id: { in: todosTodelete },
       }).fetch();
-      console.log(deletedTodo);
       return;
     } catch (err) {
       console.log(err);
