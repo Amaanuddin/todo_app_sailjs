@@ -13,6 +13,8 @@ import Todos from "../Todos";
 
 import scrollBar from "../../utilities/scrollBar";
 import styled from "styled-components";
+import { connect } from "react-redux";
+import Actions from "../../store/actions";
 
 const Wrapper = styled.div`
   .newtask,
@@ -71,8 +73,10 @@ const ActionButtonWrapper = styled.div`
   }
 `;
 
-const Boards = () => {
-  const [boards, setBoards] = useState([]);
+const Boards = (props) => {
+  // const [boards, setBoards] = useState([]);
+  const { setBoards, boards, addBoard, removeBoard, removeTodosByBoardId } =
+    props;
   const [panes, setPanes] = useState([]);
   const [newBoardName, setNewBoardName] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -120,7 +124,7 @@ const Boards = () => {
   const fetchBoards = async () => {
     try {
       const response = await axios.get("http://localhost:1337/board/list");
-      setBoards(response.data);
+      setBoards({ data: response.data });
     } catch (error) {
       console.log(error);
     }
@@ -130,7 +134,8 @@ const Boards = () => {
       const response = await axios.post("http://localhost:1337/board/create", {
         name: newBoardName,
       });
-      setBoards([...boards, response.data]);
+      addBoard({ board: response.data });
+      // setBoards([...boards, response.data]);
       setNewBoardName("");
       setActiveIndex(boards.length);
     } catch (error) {
@@ -145,11 +150,12 @@ const Boards = () => {
       if (index === boards.length - 1 && index !== 0) {
         setActiveIndex(index - 1);
       } else setActiveIndex(index);
-
-      const filteredBoards = boards.filter((board) => {
-        return board.id !== boardId;
-      });
-      setBoards([...filteredBoards]);
+      removeBoard({ boardId });
+      removeTodosByBoardId({ boardId });
+      // const filteredBoards = boards.filter((board) => {
+      //   return board.id !== boardId;
+      // });
+      // setBoards([...filteredBoards]);
     } catch (error) {
       console.log(error);
     }
@@ -231,4 +237,23 @@ const Boards = () => {
   );
 };
 
-export default Boards;
+const mapStateToProps = (state) => {
+  return { boards: state.boardsReducer };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  setBoards: (params) => {
+    dispatch(Actions.boardAction.setBoards(params));
+  },
+  addBoard: (params) => {
+    dispatch(Actions.boardAction.addBoard(params));
+  },
+  removeBoard: (params) => {
+    dispatch(Actions.boardAction.deleteBoard(params));
+  },
+  removeTodosByBoardId: (params) => {
+    dispatch(Actions.todoAction.deleteTodosByBoardId(params));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Boards);

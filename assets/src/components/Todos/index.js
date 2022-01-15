@@ -11,6 +11,8 @@ import {
 } from "semantic-ui-react";
 import Todo from "./todo";
 import styled from "styled-components";
+import { connect } from "react-redux";
+import Actions from "../../store/actions";
 
 const HeadingWrapper = styled.div`
   display: flex;
@@ -23,13 +25,13 @@ const HeadingWrapper = styled.div`
 `;
 
 const Todos = (props) => {
-  const { boardId } = props;
-  const [todos, setTodos] = useState([]);
+  const { boardId, todos, setTodos, updateTodo, addTodo, removeTodo } = props;
+  // const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showAddButton, setShowAddButton] = useState(true);
   const [newTodo, setNewTodo] = useState("");
   useEffect(() => {
-    fetchTodos();
+    if (!todos.length) fetchTodos();
   }, [boardId]);
 
   const fetchTodos = async () => {
@@ -37,7 +39,7 @@ const Todos = (props) => {
       const response = await axios.get(
         `http://localhost:1337/todo/list?boardId=${boardId}`
       );
-      setTodos(response.data);
+      setTodos({ data: response.data, boardId: boardId });
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -51,7 +53,8 @@ const Todos = (props) => {
         boardId,
         status: false,
       });
-      setTodos([...todos, response.data]);
+      addTodo({ todo: response.data, boardId });
+      // setTodos([...todos, response.data]);
       setNewTodo("");
     } catch (error) {
       console.log(error);
@@ -63,19 +66,19 @@ const Todos = (props) => {
       const response = await axios.patch("http://localhost:1337/todo/update", {
         ...newTodo,
       });
-
-      setTodos(
-        todos.map((todo) => {
-          if (todo.id === response.data.id) {
-            return {
-              ...todo,
-              description: response.data.description,
-              status: response.data.status,
-            };
-          }
-          return todo;
-        })
-      );
+      updateTodo({ boardId, todo: response.data });
+      // setTodos(
+      //   todos.map((todo) => {
+      //     if (todo.id === response.data.id) {
+      //       return {
+      //         ...todo,
+      //         description: response.data.description,
+      //         status: response.data.status,
+      //       };
+      //     }
+      //     return todo;
+      //   })
+      // );
     } catch (error) {
       console.log(error);
     }
@@ -84,11 +87,11 @@ const Todos = (props) => {
   const deleteTodo = async (todoId) => {
     try {
       await axios.delete(`http://localhost:1337/todo/delete?id=${todoId}`);
-
-      const filteredTodos = todos.filter((todo) => {
-        return todo.id !== todoId;
-      });
-      setTodos([...filteredTodos]);
+      removeTodo({ boardId, todoId });
+      // const filteredTodos = todos.filter((todo) => {
+      //   return todo.id !== todoId;
+      // });
+      // setTodos([...filteredTodos]);
     } catch (error) {
       console.log(error);
     }
@@ -174,4 +177,24 @@ const Todos = (props) => {
   );
 };
 
-export default Todos;
+const mapStateToProps = (state, ownProps) => {
+  const { boardId } = ownProps;
+  return { todos: state.todosReducer[boardId] || [] };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  setTodos: (params) => {
+    dispatch(Actions.todoAction.setTodos(params));
+  },
+  updateTodo: (params) => {
+    dispatch(Actions.todoAction.updateTodo(params));
+  },
+  addTodo: (params) => {
+    dispatch(Actions.todoAction.addTodo(params));
+  },
+  removeTodo: (params) => {
+    dispatch(Actions.todoAction.deleteTodo(params));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todos);

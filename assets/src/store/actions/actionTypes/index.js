@@ -1,0 +1,9 @@
+export const SETBOARDS = "SETBOARDS";
+export const DELETEBOARD = "DELETEBOARD";
+export const ADDBOARD = "ADDBOARD";
+
+export const SETTODOS = "SETTODOS";
+export const UPDATETODO = "UPDATETODO";
+export const DELETETODO = "DELETETODO";
+export const ADDTODO = "ADDTODO";
+export const DELETETODOSBYBOARDID = "DELETETODOSBYBOARDID";
